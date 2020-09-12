@@ -18,8 +18,8 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
              " join fetch oi.item i")
     List<Order> findOrderFetch();
 
-    @Query(value = "select o from Order o"+
-            " join fetch o.member"+ " join fetch o.delivery",
-            countQuery = "select count(o) from Order o")
+  @Query(value = "select distinct o from Order o join fetch o.delivery join fetch o.member" +
+            " join fetch o.orderItems oi join fetch oi.item",
+            countQuery ="select count(o.id) from Order o")
     Page<Order> findPaged(Pageable pageable);
 }
